@@ -22,14 +22,11 @@ const auto cmsswBase = static_cast<std::string>(gSystem->Getenv("CMSSW_BASE"));
 
 void CompareSigmaXBr(const vector<int>&, const vector<double>&, const vector<double>&, const vector<string>&);
 double MssmBr(mssm_xs_tools& my, const double& mA, const double& tanBeta);
-//double THDMBr(map<string,TH3F*>& f, const double& mA, const double& tanBeta, const double& cosB_A);
 double THDMBr(map< string, map<string,TH3F*> > histos, const string& type, const double& mA, const double& tanBeta, const double& cosB_A);
-void DrawGraphs( map<string,TGraph*>& graphs2HDM, const double &tanBetas, const double& cosB_A);
-//void GetTHDMHistos(TFile& name,map<string,TH3F*>&,const string& s);
+void DrawGraphs( map<double, TGraph*>& graphs2HDM, const string &type, const double& cosB_A);
 void GetTHDMHistos(TFile& f,map<string,TH3F*>& histos, const string& s);
 
 int main(){
-  //	Comparison should be done
   //	Histo with 2HDM results:
   string folder_path = "/nfs/dust/cms/user/asmusspa/private/CMSSW_9_2_15/src/SusHi/output_100PerJob/rootFiles/";
   vector<string> thdm_types {
@@ -44,9 +41,9 @@ int main(){
   //	Define mass points:
   vector<int> mAs{300,350,400,500,600,700,900};
   //	Define tnaBeta points:
-  vector<double> tanBetas{10,20};
+  vector<double> tanBetas{10,20,30,40,50,60};
   //	Define cos(beta-alpha) points:
-  vector<double> cosB_As{0};
+  vector<double> cosB_As{-0.8,-0.3,0,0.5};
   CompareSigmaXBr(mAs,tanBetas,cosB_As,thdm_types);
   return 0;
 }
@@ -65,26 +62,19 @@ void CompareSigmaXBr(const vector<int> &mAs, const vector<double> &tanBetas, con
     ++k;
   }//thdm-types
   for(const auto& cosB_A : cosB_As){
-    //for(const auto& tanBeta : tanBetas){
     for(const auto& type : types){
-      //map<string,TGraph*> graphsTHDM;//one map created for each combination of tanBeta and cos(B-A)
       map<double,TGraph*> graphsTHDM;
-      //for(unsigned int v = 0; v != types.size(); ++v){//loop over all types (1-4)
       for(unsigned int v = 0; v != tanBetas.size(); ++v){
-	//graphsTHDM[types.at(v)] = new TGraph(mAs.size());
 	graphsTHDM[tanBetas.at(v)] = new TGraph(mAs.size());//map created for each combination of tan beta and cosB_a --> single graphs of map represent types
 	int j = 0;
 	for(const auto& mA : mAs){
 	  ++j;
-	  //double value = THDMBr(thdm_maps,types.at(v),mA,tanBeta,cosB_A);
-	  double value = THDMBr(thdm_maps,tanBetas.at(v),mA,type,cosB_A);
+	  double value = THDMBr(thdm_maps,type,mA,tanBetas.at(v),cosB_A);
 	  cout<<"M_A/H: "<<mA<<" GxBR: "<<value<<endl;
-	  //graphsTHDM[types.at(v)]->SetPoint(j,mA,value);
 	  graphsTHDM[tanBetas.at(v)]->SetPoint(j,mA,value);
 	}//mA
       }//types
       std::cout<<"DRAW"<<std::endl;
-      //DrawGraphs(graphsTHDM,tanBeta,cosB_A);
       DrawGraphs(graphsTHDM,type,cosB_A);
     }//type
   }//cos(B-A)
@@ -136,35 +126,37 @@ double THDMBr(map< string, map<string,TH3F*> > histos, const string& type, const
 }
 
 
-//void DrawGraphs( map<string, TGraph*>& graphs2HDM, const double &tanBeta, const double& cosB_A){//if graph maps are per type: also go for type as input here!
 void DrawGraphs( map<double, TGraph*>& graphs2HDM, const string &type, const double& cosB_A){
   // setup canvas
-  //TCanvas can("can","can",800,600);
   TCanvas can("can","can",600,600);
-  can.SetGrid();
+  can.SetLeftMargin(0.11);
   TLegend leg(0.6,0.7,0.9,0.9);
   //	leg.SetHeader(("2HDM(cos(#beta-#alpha) = " + to_string_with_precision(cosB_A,2) + ") vs MSSM(m_h^{mod+}, #mu = 200)").c_str());
   vector<int> colours = {1,2,3,4,6,9,12,28,46};
   // Loop over the tanBetas
   int i = 0;
   for (const auto& graph : graphs2HDM){
+    int tanbetaint = (int)graph.first;
     graph.second->SetMarkerStyle(20 + i);
     graph.second->SetMarkerSize(1.1);
     graph.second->SetMarkerColor(colours.at(i));
-    graph.second->SetTitle( ("2HDM(cos(#beta-#alpha) = " + to_string_with_precision(cosB_A,3) + ", " + to_string(type) + ";M_{A/H} [GeV]; #sigma x BR [pb]").c_str());
-    leg.AddEntry(graph.second,("2HDM, " + graph.first).c_str(),"p");
+    graph.second->SetTitle(";M_{A/H} [GeV]; #sigma(b#bar{b}A) #font[12]{B}(A#rightarrowbb) + #sigma(b#bar{b}H) #font[12]{B}(H#rightarrowbb) [pb]");
+    graph.second->GetYaxis()->SetTitleOffset(1.7);
+    leg.AddEntry(graph.second,("tan#beta = " + to_string(tanbetaint)).c_str(),"p");
 
     if(i==0){
       graph.second->Draw("AP");
+      graph.second->GetYaxis()->SetRangeUser(1e-12,1e-3);
+      graph.second->GetXaxis()->SetRangeUser(250,1150);
+      graph.second->GetXaxis()->SetNdivisions(505);
     }
     else graph.second->Draw("Psame");
-    if(i==0) graph.second->GetYaxis()->SetRangeUser(1e-17,150);
     can.SetLogy();
     can.Update();
     ++i;
   }
   leg.Draw();
-  can.Print( (cmsswBase + "/src/Analysis/MssmHbb/macros/pictures/thdm_types_cosB_A-" + to_string_with_precision(cosB_A,3) + "_" + to_string(type) + ".pdf").c_str() );
+  can.Print( (cmsswBase + "/src/Analysis/MssmHbb/macros/pictures/thdm_types_cosB_A-" + to_string_with_precision(cosB_A,3) + "_" + type + ".pdf").c_str() );
 }
 
 double MssmBr(mssm_xs_tools& my,
