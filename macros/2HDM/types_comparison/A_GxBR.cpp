@@ -65,21 +65,28 @@ void CompareSigmaXBr(const vector<int> &mAs, const vector<double> &tanBetas, con
     ++k;
   }//thdm-types
   for(const auto& cosB_A : cosB_As){
-    for(const auto& tanBeta : tanBetas){
-      map<string,TGraph*> graphsTHDM;//one map created for each combination of tanBeta and cos(B-A)
-      for(unsigned int v = 0; v != types.size(); ++v){//loop over all types (1-4)
-	graphsTHDM[types.at(v)] = new TGraph(mAs.size());//map created for each combination of tan beta and cosB_a --> single graphs of map represent types
+    //for(const auto& tanBeta : tanBetas){
+    for(const auto& type : types){
+      //map<string,TGraph*> graphsTHDM;//one map created for each combination of tanBeta and cos(B-A)
+      map<double,TGraph*> graphsTHDM;
+      //for(unsigned int v = 0; v != types.size(); ++v){//loop over all types (1-4)
+      for(unsigned int v = 0; v != tanBetas.size(); ++v){
+	//graphsTHDM[types.at(v)] = new TGraph(mAs.size());
+	graphsTHDM[tanBetas.at(v)] = new TGraph(mAs.size());//map created for each combination of tan beta and cosB_a --> single graphs of map represent types
 	int j = 0;
 	for(const auto& mA : mAs){
 	  ++j;
-	  double value = THDMBr(thdm_maps,types.at(v),mA,tanBeta,cosB_A);
+	  //double value = THDMBr(thdm_maps,types.at(v),mA,tanBeta,cosB_A);
+	  double value = THDMBr(thdm_maps,tanBetas.at(v),mA,type,cosB_A);
 	  cout<<"M_A/H: "<<mA<<" GxBR: "<<value<<endl;
-	  graphsTHDM[types.at(v)]->SetPoint(j,mA,value);
+	  //graphsTHDM[types.at(v)]->SetPoint(j,mA,value);
+	  graphsTHDM[tanBetas.at(v)]->SetPoint(j,mA,value);
 	}//mA
       }//types
       std::cout<<"DRAW"<<std::endl;
-      DrawGraphs(graphsTHDM,tanBeta,cosB_A);
-    }//tanBeta
+      //DrawGraphs(graphsTHDM,tanBeta,cosB_A);
+      DrawGraphs(graphsTHDM,type,cosB_A);
+    }//type
   }//cos(B-A)
 }//CompareSigmaBr
 
@@ -129,33 +136,35 @@ double THDMBr(map< string, map<string,TH3F*> > histos, const string& type, const
 }
 
 
-void DrawGraphs( map<string, TGraph*>& graphs2HDM, const double &tanBeta, const double& cosB_A){//if graph maps are per type: also go for type as input here!
+//void DrawGraphs( map<string, TGraph*>& graphs2HDM, const double &tanBeta, const double& cosB_A){//if graph maps are per type: also go for type as input here!
+void DrawGraphs( map<double, TGraph*>& graphs2HDM, const string &type, const double& cosB_A){
   // setup canvas
-  TCanvas can("can","can",800,600);
+  //TCanvas can("can","can",800,600);
+  TCanvas can("can","can",600,600);
   can.SetGrid();
   TLegend leg(0.6,0.7,0.9,0.9);
   //	leg.SetHeader(("2HDM(cos(#beta-#alpha) = " + to_string_with_precision(cosB_A,2) + ") vs MSSM(m_h^{mod+}, #mu = 200)").c_str());
   vector<int> colours = {1,2,3,4,6,9,12,28,46};
   // Loop over the tanBetas
   int i = 0;
-  for (const auto& thdm : graphs2HDM){
-    thdm.second->SetMarkerStyle(20 + i);
-    thdm.second->SetMarkerSize(1.1);
-    thdm.second->SetMarkerColor(colours.at(i));
-    thdm.second->SetTitle( ("2HDM(cos(#beta-#alpha) = " + to_string_with_precision(cosB_A,3) + ", tan#beta = " + to_string_with_precision(tanBeta,3) + ";M_{A/H} [GeV]; #sigma x BR [pb]").c_str());
-    leg.AddEntry(thdm.second,("2HDM, " + thdm.first).c_str(),"p");
+  for (const auto& graph : graphs2HDM){
+    graph.second->SetMarkerStyle(20 + i);
+    graph.second->SetMarkerSize(1.1);
+    graph.second->SetMarkerColor(colours.at(i));
+    graph.second->SetTitle( ("2HDM(cos(#beta-#alpha) = " + to_string_with_precision(cosB_A,3) + ", " + to_string(type) + ";M_{A/H} [GeV]; #sigma x BR [pb]").c_str());
+    leg.AddEntry(graph.second,("2HDM, " + graph.first).c_str(),"p");
 
     if(i==0){
-      thdm.second->Draw("AP");
+      graph.second->Draw("AP");
     }
-    else thdm.second->Draw("Psame");
-    if(i==0) thdm.second->GetYaxis()->SetRangeUser(1e-17,150);
+    else graph.second->Draw("Psame");
+    if(i==0) graph.second->GetYaxis()->SetRangeUser(1e-17,150);
     can.SetLogy();
     can.Update();
     ++i;
   }
   leg.Draw();
-  can.Print( (cmsswBase + "/src/Analysis/MssmHbb/macros/pictures/thdm_types_cosB_A-" + to_string_with_precision(cosB_A,3) + "_tanB-" + to_string_with_precision(tanBeta,3) + ".pdf").c_str() );
+  can.Print( (cmsswBase + "/src/Analysis/MssmHbb/macros/pictures/thdm_types_cosB_A-" + to_string_with_precision(cosB_A,3) + "_" + to_string(type) + ".pdf").c_str() );
 }
 
 double MssmBr(mssm_xs_tools& my,
