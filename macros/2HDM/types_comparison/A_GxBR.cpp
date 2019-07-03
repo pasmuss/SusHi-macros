@@ -28,7 +28,8 @@ void GetTHDMHistos(TFile& f,map<string,TH3F*>& histos, const string& s);
 
 int main(){
   //	Histo with 2HDM results:
-  string folder_path = "/nfs/dust/cms/user/asmusspa/private/CMSSW_9_2_15/src/SusHi/output_100PerJob/rootFiles/";
+  string folder_path = "/nfs/dust/cms/user/asmusspa/private/CMSSW_9_2_15/src/SusHi/test_single_points_HA_allpoints_2016/rootFiles/";
+  //string folder_path = "/nfs/dust/cms/user/asmusspa/private/CMSSW_9_2_15/src/SusHi/output_100PerJob/rootFiles/";
   vector<string> thdm_types {
     folder_path + "Histograms3D_type1_mA.root",
       folder_path + "Histograms3D_type2_mA.root",
@@ -43,7 +44,7 @@ int main(){
   //	Define tnaBeta points:
   vector<double> tanBetas{10,20,30,40,50,60};
   //	Define cos(beta-alpha) points:
-  vector<double> cosB_As{-0.8,-0.3,0,0.5};
+  vector<double> cosB_As{0};
   CompareSigmaXBr(mAs,tanBetas,cosB_As,thdm_types);
   return 0;
 }
@@ -55,10 +56,12 @@ void CompareSigmaXBr(const vector<int> &mAs, const vector<double> &tanBetas, con
   int k =0;
   for(const auto& thdm : thdm_types){
     string thdm_type_string = thdm.substr(thdm.find("type"),8);
+    cout << "type string: " << thdm_type_string << endl;
     string thdm_model = thdm.substr(thdm.find("type"),5);
     tfiles[thdm_type_string] = new TFile(thdm.c_str(),"read");//assign file to map; key = type+boson
     GetTHDMHistos(*tfiles[thdm_type_string],thdm_maps[thdm_type_string],thdm_type_string);
     if ( find(types.begin(), types.end(), thdm_model) == types.end() ) types.push_back(thdm_model);
+    for (unsigned int i = 0; i<types.size(); i++) cout << types.at(i) << endl;
     ++k;
   }//thdm-types
   for(const auto& cosB_A : cosB_As){
