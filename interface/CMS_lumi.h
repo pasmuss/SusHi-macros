@@ -39,7 +39,7 @@ class CMS_lumi{
   float getExtraTextFont() const;
   void setExtraTextFont(const float& extraTextFont = 52);
   const TString& getLumi13TeV() const;
-  void setLumi13TeV(const TString& lumi13TeV = "35.7 fb^{-1}");
+  void setLumi13TeV(const TString& lumi13TeV = "36.5 fb^{-1}");
   const TString& getLumi7TeV() const;
   void setLumi7TeV(const TString& lumi7TeV = "5.1 fb^{-1}");
   const TString& getLumi8TeV() const;
@@ -90,7 +90,7 @@ class CMS_lumi{
   // ratio of "CMS" and extra text size
   float extraOverCmsTextSize_  = 0.76;
 
-  TString lumi_13TeV_ = "35.7 fb^{-1}";
+  TString lumi_13TeV_ = "36.5 fb^{-1}";
   TString lumi_8TeV_  = "19.7 fb^{-1}";
   TString lumi_7TeV_  = "5.1 fb^{-1}";
   TString lumi_sqrtS_ = "";

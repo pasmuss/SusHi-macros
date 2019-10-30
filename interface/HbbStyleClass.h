@@ -31,7 +31,7 @@ public:
   static PublicationStatus status() { return publicationStatus_; }
 
   // Draws a title on the current pad
-  //  <CMS label>,  #sqrt{s} = 13 TeV,  35.7fb^{-1}
+  //  <CMS label>,  #sqrt{s} = 13 TeV,  36.5fb^{-1}
   // where <CMS label> depends on the PublicationStatus
   //  INTERNAL    : no extra label (intended for AN-only plots with data)
   //  INTERNAL    : show "Simulation" label (intended for AN-only plots, no lumi, no "CMS")
@@ -161,7 +161,7 @@ public:
   static TString axisTitleMA() { return "m_{A} [GeV]"; }
   
   //Luminosity string
-  static TString lumiString() {return "35.7 fb^{-1} (13 TeV)"; }
+  static TString lumiString() {return "36.5 fb^{-1} (13 TeV)"; }
 
   //Style for the limits plots
   static void setObservedLimitsStyle(TGraph *gr);

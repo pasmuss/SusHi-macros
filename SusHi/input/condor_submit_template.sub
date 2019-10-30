@@ -7,5 +7,5 @@ error                   = $EXE_NAME$.err
 environment             = "LD_LIBRARY_PATH_STORED=$LD_LIBRARY_PATH$:$LHAPDF_DATA_PATH$"
 should_transfer_files   = Yes
 when_to_transfer_output = ON_EXIT
-+RequestRuntime		= 600
++RequestRuntime		= 3600
 queue

@@ -51,42 +51,41 @@ def setInputs():
     logging.debug('I`m in setInput::setInput')
     #Physical basis
     # Types of 2HDM to be processed 1 / 2 / 3 / 4
-    thdmTypes = [1,2,3,4]
-    #thdmTypes = [1]
+    #thdmTypes = [1,2,3,4]
+    thdmTypes = [4]
     #Types of higgs bosons
-    higgsTypes = [12,21]#h,H,A
-    #higgsTypes = [12]
+    #higgsTypes = [11,12,21]#h,H,A
+    higgsTypes = [21]
     #tanBetas
-    #tanBetaLowRange = [0.5,2.]
-    #tanBetaLowStep  = 0.05
-    #tanBetasLow = [ tanBetaLowRange[0]+tanBetaLowStep*i for i in range(int((tanBetaLowRange[1]-tanBetaLowRange[0])/tanBetaLowStep)) ]
-    #tanBetaRange = [2.,75.]
-    #tanBetaStep = 0.5
-    #tanBetas = [ tanBetaRange[0]+tanBetaStep*i for i in range(int((tanBetaRange[1]-tanBetaRange[0])/tanBetaStep+1)) ]
-    #tanBetas = tanBetasLow + tanBetas
-    tanBetas = [10.,20.,30.,40.,50.,60.]
+    tanBetaLowRange = [0.5,2.]
+    tanBetaLowStep  = 0.05
+    tanBetasLow = [ tanBetaLowRange[0]+tanBetaLowStep*i for i in range(int((tanBetaLowRange[1]-tanBetaLowRange[0])/tanBetaLowStep)) ]
+    tanBetaRange = [2.,100.]
+    tanBetaStep = 0.5
+    tanBetas = [ tanBetaRange[0]+tanBetaStep*i for i in range(int((tanBetaRange[1]-tanBetaRange[0])/tanBetaStep+1)) ]
+    tanBetas = tanBetasLow + tanBetas
     #H masses
     #mH_range = [200,2000]
     #mH_step = 50.
     #mH = [mH_range[0] + mH_step * i for i in range(int((mH_range[1] - mH_range[0])/mH_step + 1))]
-    #mH = [200,250,300,350,400,450,500,600,700,800,900,1000,1200,1400,1600,1800,2000]
-    #mH = [300.,350.,400.,500.,600.,700.,900.]
+    mH = [125,130,140,160,180,200,250,300,350,400,450,500,600,700,800,900,1000,1200,1400,1600,1800,2000]
+    #mH = [200,250,300,350]
     #h masses
     mh = [125.]
     #sin(beta - alpha)
     #use cos(beta-alpha)
-    #cosB_A_Range = [-1.,1.]
-    #cosB_A_step = 0.02
+    cosB_A_Range = [-1.,1.]
+    cosB_A_step = 0.02
     #cosB_A_step = 0.5
-    #cosB_As = [cosB_A_Range[0] + cosB_A_step* i for i in range(int((cosB_A_Range[1] - cosB_A_Range[0])/cosB_A_step + 1))]
-    #sinB_As = TranslateCosB_To_sinA(cosB_As)
+    cosB_As = [cosB_A_Range[0] + cosB_A_step* i for i in range(int((cosB_A_Range[1] - cosB_A_Range[0])/cosB_A_step + 1))]
+    sinB_As = TranslateCosB_To_sinA(cosB_As)
     # sinB_A_Range = [-1,1]
     # sinB_A_step = 0.002
     # sinB_As = [sinB_A_Range[0] + sinB_A_step* i for i in range(int((sinB_A_Range[1] - sinB_A_Range[0])/sinB_A_step + 1))]
-    sinB_As = [-0.8,-0.3,0.,0.5]
+    #$sinB_As = [-0.8,-0.3,0.,0.5]
     #A masses
-    #mA = [200,250,300,350,400,450,500,600,700,800,900,1000,1200,1400,1600,1800,2000]
-    mA = [300.,350.,400.,500.,600.,700.,900.,1100.]
+    mA = [125,130,140,160,180,200,250,300,350,400,450,500,600,700,800,900,1000,1200,1400,1600,1800,2000]
+    #mA = [200,250,300,350]
     #m12 Parameter
     m12 = []
     #mass of Z boson:

@@ -23,7 +23,7 @@ namespace mssmhbb {
 class THDMLimits : public LimitsInterpretation{
 public:
 
-	THDMLimits(const bool& blindData, const std::string& boson, const double& xMin = 200, const double& xMax = 900, const double& yMin = 0, const double& yMax = 60, const bool& test = false) :
+	THDMLimits(const bool& blindData, const std::string& boson, const double& xMin = 125, const double& xMax = 700, const double& yMin = 0, const double& yMax = 60, const bool& test = false) :
 			LimitsInterpretation(blindData,boson,xMin,xMax,yMin,yMax,test) {};
 
 	struct THDMScan{

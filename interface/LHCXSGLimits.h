@@ -21,7 +21,7 @@ namespace mssmhbb {
  
 class LHCXSGLimits : public LimitsInterpretation{
 public:
-	LHCXSGLimits(const bool& blindData, const std::string& boson, const std::string& benchmark_path, const double& xMin = 300, const double& xMax = 900, const double& yMin = 0, const double& yMax = 60, const bool& test = false);
+	LHCXSGLimits(const bool& blindData, const std::string& boson6, const std::string& benchmark_path, const double& xMin = 125, const double& xMax = 700, const double& yMin = 0, const double& yMax = 60, const bool& test = false);
 
 	//	Method to get tanBeta limits according to theoretical Br and Sigma
 	virtual void ReadCombineLimits(const std::string& file_name, const std::string& uncert = "", const bool& UP = false, const std::string& benchmark_ref_path = "", const double& tanBref = -1);

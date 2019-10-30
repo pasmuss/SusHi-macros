@@ -39,14 +39,15 @@ int main(int argc, const char** argv){
 	//Prefix to the output
 	string output_prefix = "13TeV_limits";
 	//ATLAS results
-	string ATLAS_results = "ATLAS-CONF-2017-055";//"1502.04478";//
+	string ATLAS_results = "HIG-18-005";//"1502.04478";//"ATLAS-CONF-2017-055"
 	//paths with results of the combine tool
-	string path2016 = cmsswBase + "/src/Analysis/MssmHbb/datacards/201712/13/unblinded/mhmodp_200/bias/Hbb.limits";
+	//string path2016 = cmsswBase + "/src/Analysis/MssmHbb/datacards/201712/13/unblinded/mhmodp_200/bias/Hbb.limits";
+	string path2017SL = "/nfs/dust/cms/user/vagneria/2HDM/Hbb.limits";
 	//value of cos(beta-alpha)
 	double cB_A = 0.1;
 	//Details of the 2HDM produciton
-	string thdm_production = "production_cosB_A_-1_1_tanB_0p5-100_COMBINATION";
-	// type of the 2hdm: type2 or type3
+	string thdm_production = "FullRun_100PerJob_AllTypesAndBosons";
+	// type of the 2hdm: type2 or type3 (=flipped); mhmodp_200/hMSSM should also work
 	string thdm_type = "type2";
 	if(argc != 1) {
 		thdm_type = string(argv[1]);
@@ -55,34 +56,34 @@ int main(int argc, const char** argv){
 	if(thdm_type == "flipped") banch_name = "type3";
 	else if (thdm_type == "lepton_specific") banch_name = "type4";
 	AvailableScenarios scenario = AvailableScenariosFromString(thdm_type);
-	string thdm_scans = "/nfs/dust/cms/user/shevchen/SusHiScaner/output/" + thdm_production + "/rootFiles/Histograms3D_" + banch_name + "_mA_mH.root";
+	string thdm_scans = "/nfs/dust/cms/user/asmusspa/public/CMSSW_9_2_15/src/Analysis/MssmHbb/SusHi/" + thdm_production + "/rootFiles/Histograms3D_" + banch_name + "_mA_mH.root";
 
 	//higgs boson: H/A/both
 	string boson = "both";
-	string output = pictures_output + "/ParametricLimits/20171213/";
+	string output = pictures_output + "Antonio/20190917_1707/";
 //	string output = cmsswBase + "/src/Analysis/MssmHbb/macros/pictures/ParametricLimits/20171213/";
 	if(!mssmhbb::blinded) output += "unblinded/";
 	output += "2hdm/" + thdm_type + "/";
 	CheckOutputDir(output);
 
-	THDMLimits limits(mssmhbb::blinded,boson,200,900,0.7,60);
+	THDMLimits limits(mssmhbb::blinded,boson,125,700,0.7,60);
 	limits.setScenario(scenario);
 	limits.SetHiggsBoson(boson);
-	limits.ReadCombineLimits(path2016);
+	limits.ReadCombineLimits(path2017SL);
 	auto thdmLim = limits.Get2HDM_1D_Limits(thdm_scans,cB_A,"z");
 	for(const auto& l: limits.getGxBrLimits()) cout<<"GxBR M: "<<l.getX()<<" exp = "<<l.getMedian()<<" +1G = "<<l.getPlus1G()<<" -1G = "<<l.getMinus1G()<<" +2G = "<<l.getPlus2G()<<" -2G = "<<l.getMinus2G()<<" Obs = "<<l.getObserved()<<endl;
 	for(const auto& l: thdmLim) cout<<"M: "<<l.getX()<<" exp = "<<l.getMedian()<<" +1G = "<<l.getPlus1G()<<" -1G = "<<l.getMinus1G()<<" +2G = "<<l.getPlus2G()<<" -2G = "<<l.getMinus2G()<<" Obs = "<<l.getObserved()<<endl;
 	limits.compareWithPrevious(ATLAS_results);
 
 	// 2HDM tanBeta vs mA limits for cos(beta-alpha) = cB_A
-//	TLegend leg_2HDM_tB(0.65,0.17,0.92,0.44);
+	//TLegend leg_2HDM_tB(0.65,0.17,0.92,0.44);
 	TLegend leg_2HDM_tB(0.35,0.74,0.93,0.87);
 	output += thdm_type + "_" + boson + "_bosons_tanB_cB_A_" + output_prefix;
-	limits.LimitPlotter(leg_2HDM_tB,output,"35.7 fb^{-1}",string(HbbStyle::axisTitleMAH().Data()),"tan#beta",true);
+	limits.LimitPlotter(leg_2HDM_tB,output,"36.5 fb^{-1}",string(HbbStyle::axisTitleMAH().Data()),"tan#beta",true);
 	output += "vs_ATLAS_" + ATLAS_results;
 	output += "_zoomed";
 	leg_2HDM_tB.Clear();
-	limits.setXMin(300);
-	limits.LimitPlotter(leg_2HDM_tB,output,"35.7 fb^{-1}",string(HbbStyle::axisTitleMAH().Data()),"tan#beta",true);
+	limits.setXMin(125); limits.setYMin(10); limits.setYMax(100);
+	limits.LimitPlotter(leg_2HDM_tB,output,"36.5 fb^{-1}",string(HbbStyle::axisTitleMAH().Data()),"tan#beta",true);
 
 }

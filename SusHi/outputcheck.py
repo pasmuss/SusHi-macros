@@ -49,7 +49,9 @@ print("Checking " + sushidir)
 i = 0
 points = 0
 failures = 0
+outerror = 0
 checkedjobs = []
+resubmitjobs = []
 for jobdir in os.listdir(sushidir):
     if 'Partially_Failed_SusHi_Jobs' in jobdir or 'checked_jobs.txt' in jobdir:
         continue
@@ -70,10 +72,13 @@ for jobdir in os.listdir(sushidir):
         checkedjobs.append("'"+jobstr+"'")
         if not command.after_untaring:#checking tared files for existence/filling
             if len(glob.glob(jobdirstr+'/job*out')) == 0 or len(glob.glob(jobdirstr+'/out*tgz')) == 0:#two possibilities of failure
+                outerror = outerror + 1
                 if len(glob.glob(jobdirstr+'/job*out')) == 0:#1: no summary file at all
                     print("No summarized outfile found for job " + jobnumber + ". Resubmitting.")
+                    resubmitjobs.append(jobnumber)
                 elif len(glob.glob(jobdirstr+'/out*tgz')) == 0:#2 no tared file list, i.e. nothing to analyze for postprocessor
                     print("No tared outfile found for job " + jobnumber + ". Resubmitting.")
+                    resubmitjobs.append(jobnumber)
                 resubmit(cwd,jobnumber)
             else:
                 globout = glob.glob(jobdirstr+'/job*out')[0]#if existent, check the summary file
@@ -81,6 +86,7 @@ for jobdir in os.listdir(sushidir):
                 outstrsplit = globout.split('.')[0]
                 jobnumber = outstrsplit.split('_')[-1]
                 if outsize == 0:#if the summary file does not contain anything, the job just failed on condor and no results were produced
+                    outerror = outerror + 1
                     print("Output file of job " + str(jobnumber) + " is 0. Resubmitting.")
                     resubmit(cwd,jobnumber)
         else:#checking untared, individual, results for each grid point
@@ -118,8 +124,8 @@ for jobdir in os.listdir(sushidir):
                     with open(sushidir+'checked_jobs.txt','w') as alreadychecked:
                         for checkedjob in checkedjobs:
                             alreadychecked.write(checkedjob+'\n')
-
-print("Checking and/or resubmission finished. " + str(failures) + " of " + str(points) + " grid points could not be processed. Check Gorleben at './sushi_out/Partially_Failed_SusHi_Jobs'.")
+print("Checking and/or resubmission finished. " + str(failures) + " of " + str(points) + " grid points could not be processed. Check Gorleben at './sushi_out/Partially_Failed_SusHi_Jobs'. " + str(outerror) + " job(s) had to be resubmitted.")
+print(resubmitjobs)
 
 ##########################################################################################
 ##########################################################################################

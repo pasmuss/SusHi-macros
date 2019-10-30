@@ -18,7 +18,7 @@ namespace mssmhbb {
 bool is_empty(std::ifstream&);
 
 LimitsInterpretation::LimitsInterpretation(const bool& blindData, const std::string& boson, const bool& test) :
-		HbbLimits(blindData,200,900,0,60,test),
+		HbbLimits(blindData,125,700,0,60,test),
 		boson_(boson){
 	/*
 	 * Constructor with 2 arguments.
@@ -40,8 +40,8 @@ LimitsInterpretation::LimitsInterpretation(const bool& blindData, const std::str
 };
 
 void LimitsInterpretation::CheckHiggsBoson(){
-	if(boson_ != "A" && boson_ != "H" && boson_ != "both"){
-		std::invalid_argument("ERROR: in LimitsInterpretation::CheckHiggsBoson() - wrong name of Higgs boson was specified. Available configs: A/H/both");
+	if(boson_ != "A" && boson_ != "H" && boson_ != "both" && boson_ != "three"){
+		std::invalid_argument("ERROR: in LimitsInterpretation::CheckHiggsBoson() - wrong name of Higgs boson was specified. Available configs: A/H/both/three");
 	}
 }
 

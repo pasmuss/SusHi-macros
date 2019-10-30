@@ -33,12 +33,21 @@ namespace analysis {
       CheckZombie(f);
       SetTHDMHistos(f,histos);
 
-      if(boson_ != "both"){
-	histos["GxBR_" + boson_] = (TH3D*) histos["xs_bb" + boson_]->Clone();
-	histos["GxBR_" + boson_]->Multiply(histos["br_" + boson_ + "bb"]);
-	hOut = histos["GxBR_" + boson_];
+      if (boson_ == "three"){
+	histos["GxBR_A"] = (TH3D*) histos["xs_bbA"]->Clone();
+        histos["GxBR_A"]->Multiply(histos["br_Abb"]);
+        histos["GxBR_H"] = (TH3D*) histos["xs_bbH"]->Clone();
+        histos["GxBR_H"]->Multiply(histos["br_Hbb"]);
+	histos["GxBR_h"] = (TH3D*) histos["xs_bbh"]->Clone();
+        histos["GxBR_h"]->Multiply(histos["br_hbb"]);
+
+        //Add HxBR + AxBR + hxBR
+        histos["GxBR_HandAandh"] = (TH3D*) histos["GxBR_A"]->Clone("GxBR_HandAandh");
+        histos["GxBR_HandAandh"]->Add(histos["GxBR_H"],1.);
+	histos["GxBR_HandAandh"]->Add(histos["GxBR_h"],1.);
+        hOut = histos["GxBR_HandAandh"];
       }
-      else {
+      else if (boson_ == "both") {
 	histos["GxBR_A"] = (TH3D*) histos["xs_bbA"]->Clone();
 	histos["GxBR_A"]->Multiply(histos["br_Abb"]);
 	histos["GxBR_H"] = (TH3D*) histos["xs_bbH"]->Clone();
@@ -48,6 +57,11 @@ namespace analysis {
 	histos["GxBR_HandA"] = (TH3D*) histos["GxBR_A"]->Clone("GxBR_HandA");
 	histos["GxBR_HandA"]->Add(histos["GxBR_H"],1.);
 	hOut = histos["GxBR_HandA"];
+      }
+      else{
+	histos["GxBR_" + boson_] = (TH3D*) histos["xs_bb" + boson_]->Clone();
+	histos["GxBR_" + boson_]->Multiply(histos["br_" + boson_ + "bb"]);
+	hOut = histos["GxBR_" + boson_];
       }
 
       if(TEST_){
@@ -349,16 +363,26 @@ namespace analysis {
       /*
        * Method to set map of 2HDM histograms according to boson name
        */
-      if(boson_ != "both"){
-	histos["xs_bb" + boson_] = GetFromTFile<TH3D>(f,"xs_bb" + boson_);
-	histos["br_" + boson_ + "bb"] = GetFromTFile<TH3D>(f,"br_" + boson_ + "bb");
-      }
-      else{
+      if(boson_ == "both"){
 	histos["xs_bbA"] = GetFromTFile<TH3D>(f,"xs_bbA");
 	histos["br_Abb"] = GetFromTFile<TH3D>(f,"br_Abb");
 
 	histos["xs_bbH"] = GetFromTFile<TH3D>(f,"xs_bbH");
 	histos["br_Hbb"] = GetFromTFile<TH3D>(f,"br_Hbb");
+      }
+      else if (boson_ == "three"){
+	histos["xs_bbA"] = GetFromTFile<TH3D>(f,"xs_bbA");
+        histos["br_Abb"] = GetFromTFile<TH3D>(f,"br_Abb");
+
+	histos["xs_bbH"] = GetFromTFile<TH3D>(f,"xs_bbH");
+        histos["br_Hbb"] = GetFromTFile<TH3D>(f,"br_Hbb");
+
+	histos["xs_bbh"] = GetFromTFile<TH3D>(f,"xs_bbh");
+        histos["br_hbb"] = GetFromTFile<TH3D>(f,"br_hbb");
+      }
+      else{
+	histos["xs_bb" + boson_] = GetFromTFile<TH3D>(f,"xs_bb" + boson_);
+	histos["br_" + boson_ + "bb"] = GetFromTFile<TH3D>(f,"br_" + boson_ + "bb");	
       }
     }
 
@@ -432,7 +456,8 @@ namespace analysis {
 			
 	}
 	leg.AddEntry(&inner_band,"68% expected","f");
-	leg.AddEntry(patlas_results.front(),"A#rightarrow Zh, ATLAS","f");
+	//leg.AddEntry(patlas_results.front(),"A#rightarrow Zh, ATLAS","f");
+	leg.AddEntry(patlas_results.front(),"A#rightarrow Zh, CMS","f");
 	leg.AddEntry(&exp,"Expected","l");
 	leg.AddEntry(&outer_band,"95% expected","f");
       }

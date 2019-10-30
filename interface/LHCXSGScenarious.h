@@ -80,7 +80,7 @@ public:
 	std::vector<TGraph> getPreviousResults(const std::string& PAS) const;
 	TText getPreviousResultsLabel(const std::string& PAS) const;
 	std::vector<TGraph> getPreviousResults(const std::string& var,const std::string& PAS) const {std::vector<TGraph> gr; return gr;}
-	double getXMax() const {return 900;}
+	double getXMax() const {return 700;}
 	bool previousExists() const {return true;}
 };
 
@@ -91,7 +91,7 @@ public:
 	std::vector<TGraph> getPreviousResults(const std::string& PAS) const;
 	TText getPreviousResultsLabel(const std::string& PAS) const;
 	std::vector<TGraph> getPreviousResults(const std::string& var,const std::string& PAS) const {std::vector<TGraph> gr; return gr;}
-	double getXMax() const {return 900;}
+	double getXMax() const {return 700;}
 	bool previousExists() const {return true;}
 };
 
@@ -102,7 +102,7 @@ public:
 	std::vector<TGraph> getPreviousResults(const std::string& PAS) const;
 	TText getPreviousResultsLabel(const std::string& PAS) const;
 	std::vector<TGraph> getPreviousResults(const std::string& var,const std::string& PAS) const {std::vector<TGraph> gr; return gr;}
-	double getXMax() const {return 900;}
+	double getXMax() const {return 700;}
 	bool previousExists() const {return true;}
 };
 
@@ -113,7 +113,7 @@ public:
 	std::vector<TGraph> getPreviousResults(const std::string& PAS) const;
 	TText getPreviousResultsLabel(const std::string& PAS) const;
 	std::vector<TGraph> getPreviousResults(const std::string& var,const std::string& PAS) const {std::vector<TGraph> gr; return gr;}
-	double getXMax() const {return 900;}
+	double getXMax() const {return 700;}
 	bool previousExists() const {return false;}
 };
 
@@ -124,7 +124,7 @@ public:
 	std::vector<TGraph> getPreviousResults(const std::string& PAS) const;
 	TText getPreviousResultsLabel(const std::string& PAS) const;
 	std::vector<TGraph> getPreviousResults(const std::string& var,const std::string& PAS) const {std::vector<TGraph> gr; return gr;}
-	double getXMax() const {return 900;}
+	double getXMax() const {return 700;}
 	bool previousExists() const {return false;} //exists but too small mH/A
 };
 
@@ -135,7 +135,7 @@ public:
 	std::vector<TGraph> getPreviousResults(const std::string& PAS) const {std::vector<TGraph> gr; return gr;}
 	TText getPreviousResultsLabel(const std::string& PAS) const {TText tx; return tx;}
 	std::vector<TGraph> getPreviousResults(const std::string& var,const std::string& PAS) const;
-	double getXMax() const {return 900;}
+	double getXMax() const {return 700;}
 	bool previousExists() const {return false;} //exists but too small mH/A
 };
 
@@ -146,7 +146,7 @@ public:
 	std::vector<TGraph> getPreviousResults(const std::string& PAS) const {std::vector<TGraph> gr; return gr;}
 	TText getPreviousResultsLabel(const std::string& PAS) const {TText tx; return tx;}
 	std::vector<TGraph> getPreviousResults(const std::string& var,const std::string& PAS) const;
-	double getXMax() const {return 900;}
+	double getXMax() const {return 700;}
 	bool previousExists() const {return false;} //exists but too small mH/A
 };
 
@@ -157,7 +157,7 @@ public:
 	std::vector<TGraph> getPreviousResults(const std::string& PAS) const {std::vector<TGraph> gr; return gr;}
 	TText getPreviousResultsLabel(const std::string& PAS) const {TText tx; return tx;}
 	std::vector<TGraph> getPreviousResults(const std::string& var,const std::string& PAS) const;
-	double getXMax() const {return 900;}
+	double getXMax() const {return 700;}
 	bool previousExists() const {return false;} //exists but too small mH/A
 };
 
@@ -168,7 +168,7 @@ public:
 	std::vector<TGraph> getPreviousResults(const std::string& PAS) const {std::vector<TGraph> gr; return gr;}
 	TText getPreviousResultsLabel(const std::string& PAS) const {TText tx; return tx;}
 	std::vector<TGraph> getPreviousResults(const std::string& var,const std::string& PAS) const;
-	double getXMax() const {return 900;}
+	double getXMax() const {return 700;}
 	bool previousExists() const {return false;} //exists but too small mH/A
 };
 

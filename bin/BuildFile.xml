@@ -20,8 +20,8 @@
 <bin   name="A_GxBR" file="../macros/2HDM/types_comparison/A_GxBR.cpp" />
 <bin   name="A_BR" file="../macros/2HDM/types_comparison/A_BR.cpp" />
 <bin   name="mssm_2hdm_xsection" file="../macros/2HDM/mssm_2hdm_xsection.cpp" />
-<bin   name="normToTanB30"  file="../macros/signal/normToTanB30.cpp"></bin>
-<bin   name="normPDFsToTanB30"  file="../macros/signal/normPDFsToTanB30.cpp"></bin>
+#<bin   name="normToTanB30"  file="../macros/signal/normToTanB30.cpp"></bin>
+#<bin   name="normPDFsToTanB30"  file="../macros/signal/normPDFsToTanB30.cpp"></bin>
 
 #Limits
 <bin   name="plotTanBetaLimits" 		file="../macros/limits/plotTanBetaLimits.cpp"></bin>

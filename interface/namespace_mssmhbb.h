@@ -14,20 +14,20 @@ namespace mssmhbb{
 	// current CMSSW release base dir
 	static const std::string cmsswBase = getenv("CMSSW_BASE");
 	//publication status
-	const PublicationStatus publication_status = PUBLIC;//PRELIMINARY;
+	const PublicationStatus publication_status = NONE;//PRELIMINARY;
 	//pictures output folder
 	const std::string pictures_output = cmsswBase +  "/src/Analysis/MssmHbb/pictures/" + PublicationStatusToString(publication_status) + "/";
 //	const std::string pictures_output = cmsswBase +  "/src/Analysis/MssmHbb/pictures/";
 	//blinded analysis or not
 	const bool blinded = false;
 	// current signal selection
-	static const std::string signal_selection = "NLO_correction_";
+	//static const std::string signal_selection = "NLO_correction_";
 	// vector of masses:
-	static const std::vector<int> masses = {300,350,400,500,600,700,900,1100,1300};
+	static const std::vector<int> masses = {125,130,140,160,180,200,250,300,350,400,450,500,600,700};
 	// list of shape signal systematics
-	static const std::vector<std::string> signal_shape_unc = {"CMS_scale_j_13TeV","CMS_res_j_13TeV","CMS_eff_pTonl_13TeV","CMS_eff_b_13TeV"};//,"CMS_PDF_13TeV"};
+	//static const std::vector<std::string> signal_shape_unc = {"CMS_scale_j_13TeV","CMS_res_j_13TeV","CMS_eff_pTonl_13TeV","CMS_eff_b_13TeV"};//,"CMS_PDF_13TeV"};
 	// signal MC points and pathes
-	static const std::map<int,std::string> signal_templates {
+	/*static const std::map<int,std::string> signal_templates {
 		{300,cmsswBase + "/src/Analysis/MssmHbb/output/MssmHbbSignal_" + signal_selection + "lowM_SUSYGluGluToBBHToBB_NarrowWidth_M-300_TuneCUETP8M1_13TeV-pythia8.root"},
 		{350,cmsswBase + "/src/Analysis/MssmHbb/output/MssmHbbSignal_" + signal_selection + "lowM_SUSYGluGluToBBHToBB_NarrowWidth_M-350_TuneCUETP8M1_13TeV-pythia8.root"},
 		{400,cmsswBase + "/src/Analysis/MssmHbb/output/MssmHbbSignal_" + signal_selection + "lowM_SUSYGluGluToBBHToBB_NarrowWidth_M-400_TuneCUETP8M1_13TeV-pythia8.root"},
@@ -61,7 +61,7 @@ namespace mssmhbb{
 		{900,signal_folders.at(900) + "/workspace/signal_workspace.root"},
 		{1100,signal_folders.at(1100) + "/workspace/signal_workspace.root"},
 		{1300,signal_folders.at(1300) + "/workspace/signal_workspace.root"},
-	};
+		};
 	// signal MC PDF fits
 	static const std::map<int,std::string> signal_fits {
 		{300,signal_folders.at(300) + "/workspace/FitContainer_workspace.root"},
@@ -73,7 +73,7 @@ namespace mssmhbb{
 		{900,signal_folders.at(900) + "/workspace/FitContainer_workspace.root"},
 		{1100,signal_folders.at(1100) + "/workspace/FitContainer_workspace.root"},
 		{1300,signal_folders.at(1300) + "/workspace/FitContainer_workspace.root"},
-	};
+		};
 	// path to mssm_xs_tool root file
 	static const std::string path_mssm_xsections = cmsswBase + "/src/Analysis/MssmHbb/macros/signal/mhmodp_mu200_13TeV.root";
 
@@ -94,7 +94,7 @@ namespace mssmhbb{
 		{1,path_bg_sr1}, //sub-range 1
 		{2,path_bg_sr2}, //sub-range 2
 		{3,path_bg_sr3}, //sub-range 2
-	};
+		};
 	//Observed data
 	static const std::string path_data_sr1 = (blinded) ?
 			cmsswBase + "/src/Analysis/MssmHbb/output/ReReco_bg_fit/sr1/QCD_Templates_SR1.root" :
@@ -110,7 +110,7 @@ namespace mssmhbb{
 		{2,path_data_sr2}, //sub-range 2
 		{3,path_data_sr3}, //sub-range 2
 	};
-
+	*/
 	//sub-ranges
 	static const std::vector<int> sr1 = {300,350,400};
 	static const std::vector<int> sr2 = {500,600,700,900};
@@ -123,5 +123,5 @@ namespace mssmhbb{
 	};
 
 	const std::string getModelForTheMass(const int& mass);
-
+		
 };

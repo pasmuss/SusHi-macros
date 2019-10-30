@@ -35,16 +35,16 @@ void GetTHDMHistos(TFile& name,map<string,TH3F*>&,const vector<string>&);
 int main(){
 //	Comparison should be done
 //	Histo with 2HDM results:
-	vector<string> types{"type1","type2","type3","type4"};
+	vector<string> types{"type2","type4"};
 	//	Define mass points:
-	vector<double> mAs{300,400,500,600,700,900};
+	vector<double> mAs{125,300,500};
 	//	Define tnaBeta points:
 	vector<double> tanBetas{10,20,30,40,50,60};
 	//	Define cos(beta-alpha) points:
 	vector<double> cosB_As;
 	for(double i = -1.001; i<= 1.001; i+=0.02) cosB_As.push_back(i);
 	for(const auto& type : types){
-		string thdm_fname = "/nfs/dust/cms/user/asmusspa/private/CMSSW_9_2_15/src/SusHi/output_100PerJob/rootFiles/Histograms3D_" + type + "_mA.root";
+		string thdm_fname = "/nfs/dust/cms/user/asmusspa/public/CMSSW_9_2_15/src/Analysis/MssmHbb/SusHi/FullRun_100PerJob_AllTypesAndBosons/rootFiles/Histograms3D_" + type + "_mA.root";
 		TFile f(thdm_fname.c_str(),"read");
 
 	//	Define types of BRs:

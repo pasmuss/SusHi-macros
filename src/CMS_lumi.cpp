@@ -19,7 +19,7 @@ TString CMS_lumi::getExtraText(const PublicationStatus status){
     txt = "Preliminary";
   } else if ( status == PRELIMINARY_SIMULATION) {
     txt = "Simulation Preliminary";
-  } else if( status == PUBLIC ) {
+  } else if( status == PUBLIC || status == NONE ) {
     txt = "";
   } else if( status == SIMULATION ) {
     txt = "Simulation";
@@ -269,7 +269,8 @@ void CMS_lumi::drawCMSLatex(TLatex& latex, TString& extraText, const int& iPosX,
    * Setup CMS sign latex preferences
    */
   bool drawExtraText = true;
-  TString cmsText = "CMS";
+  //TString cmsText = "CMS";
+  TString cmsText = "";
   if(extraText == "") drawExtraText = false;
   float extraTextSize = extraOverCmsTextSize_*cmsTextSize_;
 

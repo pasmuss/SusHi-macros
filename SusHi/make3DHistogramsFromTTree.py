@@ -44,20 +44,20 @@ def MakeBins(l):
 tanBetaLowRange = [0.5,2.]
 tanBetaLowStep  = 0.05
 tanBetasLow = [ round(tanBetaLowRange[0]+tanBetaLowStep*i,3) for i in range(int((tanBetaLowRange[1]-tanBetaLowRange[0])/tanBetaLowStep)) ]
-tanBetaRange = [2.,75.]
+tanBetaRange = [2.,100.]
 tanBetaStep = 0.5
 tanBetas = [ tanBetaRange[0]+tanBetaStep*i for i in range(int((tanBetaRange[1]-tanBetaRange[0])/tanBetaStep+1)) ]
 tanBetas = tanBetasLow + tanBetas
 #tanBetas = [10.0,20.0,30.0,40.0,50.0,60.0]
 
 #H masses (since type of boson is defined elsewhere: mH and mA equally used here)
-mH = [200,250,300,350,400,450,500,600,700,800,900,1000,1100,1200,1300,1400,1600,1800,2000]
+mH = [125,130,140,160,180,200,250,300,350,400,450,500,600,700,800,900,1000,1100,1200,1300,1400,1600,1800,2000]
 #mH = [300,350,400,500,600,700,900,1100]
 #h masses
 mh = [125.]
 #sin(beta - alpha)
-cosB_A_Range = [-1,1]
-cosB_A_step = 0.002
+cosB_A_Range = [-1.,1.]
+cosB_A_step = 0.02
 cosB_As = [cosB_A_Range[0] + cosB_A_step* i for i in range(int((cosB_A_Range[1] - cosB_A_Range[0])/cosB_A_step + 1))]
 #cosB_As = [-0.8,-0.3,0.0,0.5]
 sinB_As = TranslateCosB_To_sinA(cosB_As)
@@ -65,10 +65,10 @@ sinB_As = TranslateCosB_To_sinA(cosB_As)
 print sinB_As
 
 #type_boson = 'type1_mH'
-type_bosons = ['type1_mH','type2_mH','type3_mH','type4_mH','type1_mA','type2_mA','type3_mA','type4_mA']
+type_bosons = ['type1_mH','type2_mH','type3_mH','type4_mH','type1_mA','type2_mA','type3_mA','type4_mA','type1_mh','type2_mh','type3_mh','type4_mh']
 
 for type_boson in type_bosons:
-    inputTxt = '/nfs/dust/cms/user/asmusspa/private/CMSSW_9_2_15/src/SusHi/test_single_points_HA_allpoints_2016/txtFiles/' + type_boson + '.txt'
+    inputTxt = '/nfs/dust/cms/user/asmusspa/public/CMSSW_9_2_15/src/Analysis/MssmHbb/SusHi/FullRun_100PerJob_AllTypesAndBosons/txtFiles/' + type_boson + '.txt'
     print inputTxt
 
 # names of the column
@@ -97,7 +97,7 @@ for type_boson in type_bosons:
     hists = [ TH3F(histNames[i], ";mH;tan(#beta);cos(#beta-#alpha)", len(mH_bin)-1, mH_bin, len(tanBetas_bin)-1, tanBetas_bin, len(cosB_As_bin)-1, cosB_As_bin) for i in range(5, len(histNames))]
 
 # Ouptut file
-    output_name = '/nfs/dust/cms/user/asmusspa/private/CMSSW_9_2_15/src/SusHi/test_single_points_HA_allpoints_2016/rootFiles/Histograms3D_' + type_boson + '.root'
+    output_name = '/nfs/dust/cms/user/asmusspa/public/CMSSW_9_2_15/src/Analysis/MssmHbb/SusHi/FullRun_100PerJob_AllTypesAndBosons/rootFiles/Histograms3D_' + type_boson + '.root'
     f = TFile(output_name,'recreate')
     for i in range(1, len(lines)):
         for j in range(5, len(histNames)):

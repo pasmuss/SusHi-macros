@@ -215,7 +215,7 @@ def makeReadableGrid(output_dir):
     """
     # higgsType and 2HDM types
 #    higgsType = ['H']
-    higgsType = ['A', 'H'] #'h'
+    higgsType = ['A', 'H', 'h'] #'h'
 #    types2HDM = ['type1']
     types2HDM = ['type1','type2','type3','type4']
     # create directory for txt files:
